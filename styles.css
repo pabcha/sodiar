@@ -1,0 +1,187 @@
+:root {
+  --spotify-black: #121212;
+  --spotify-dark-grey: #181818;
+  --spotify-light-grey: #282828;
+  --spotify-green: #1DB954;
+  --spotify-white: #FFFFFF;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--spotify-black);
+  color: var(--spotify-white);
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Evitar scroll durante transiciones */
+  height: 100dvh;
+  display: flex;
+  justify-content: center;
+}
+
+/* Pantallas */
+.screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.screen-list {
+  z-index: 10;
+}
+
+.screen-player {
+  z-index: 20;
+  transform: translateY(100%); /* Comienza abajo */
+  background: linear-gradient(180deg, #2a2a2a 0%, var(--spotify-black) 100%);
+  opacity: 0;
+}
+
+.screen-player.active {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.hidden-list {
+  transform: scale(0.95);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Elementos de Lista */
+.radio-item {
+  background-color: var(--spotify-dark-grey);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.radio-item:active {
+  background-color: var(--spotify-light-grey);
+}
+
+.radio-icon {
+  width: 48px;
+  height: 48px;
+  background-color: var(--spotify-light-grey);
+  border-radius: 4px;
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--spotify-green);
+}
+
+/* Reproductor */
+.player-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.album-art-placeholder {
+  width: 100%;
+  aspect-ratio: 1/1;
+  background: linear-gradient(135deg, #282828 0%, #121212 100%);
+  border-radius: 12px;
+  margin-bottom: 40px;
+  padding: 2.5rem;
+  /* display: flex; */
+  /* align-items: center;
+  justify-content: center; */
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.play-btn {
+  width: 72px;
+  height: 72px;
+  background-color: var(--spotify-green);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s;
+  margin: 0 auto;
+}
+
+.play-btn:active {
+  transform: scale(0.9);
+}
+
+.play-btn svg {
+  fill: black;
+  width: 32px;
+  height: 32px;
+}
+
+/* Animación de Ondas (Solo visual) */
+.wave-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 40px;
+}
+
+.wave-bar {
+  width: 4px;
+  height: 10px;
+  background-color: var(--spotify-green);
+  border-radius: 2px;
+  animation: wave 1s ease-in-out infinite;
+}
+
+.playing .wave-bar {
+  animation-play-state: running;
+}
+
+.paused .wave-bar {
+  animation-play-state: paused;
+  height: 4px !important;
+}
+
+@keyframes wave {
+  0%, 100% { height: 10px; }
+  50% { height: 30px; }
+}
+
+.wave-bar:nth-child(2) { animation-delay: 0.1s; }
+.wave-bar:nth-child(3) { animation-delay: 0.2s; }
+.wave-bar:nth-child(4) { animation-delay: 0.3s; }
+.wave-bar:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
