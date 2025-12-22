@@ -100,15 +100,12 @@ body {
 
 .album-art-placeholder {
   width: 100%;
-  aspect-ratio: 1/1;
   background: linear-gradient(135deg, #282828 0%, #121212 100%);
   border-radius: 12px;
   margin-bottom: 40px;
-  padding: 2.5rem;
-  /* display: flex; */
-  /* align-items: center;
-  justify-content: center; */
+  padding: 1rem 2.5rem 2.5rem;
   box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  box-sizing: border-box;
 }
 
 .play-btn {

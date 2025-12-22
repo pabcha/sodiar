@@ -29,7 +29,7 @@ function showToast(message, type = 'error', duration = 3000) {
     ? '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>'
     : '<polyline points="20 6 9 17 4 12"></polyline>';
   
-  toastEl.className = `p-4 rounded-lg text-white font-semibold flex items-center gap-3 animate-fadeIn ${bgColor} mb-2`;
+  toastEl.className = `p-4 rounded-lg text-white font-semibold flex items-center gap-3 mb-2 ${bgColor}`;
   toastEl.innerHTML = `
     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       ${iconPath}
@@ -38,6 +38,10 @@ function showToast(message, type = 'error', duration = 3000) {
   `;
   
   toastContainer.appendChild(toastEl);
+  // Aplicar animación fadeIn después de agregar al DOM
+  requestAnimationFrame(() => {
+    toastEl.style.animation = 'fadeIn 0.3s ease-out';
+  });
   
   setTimeout(() => toastEl.remove(), duration);
 }
@@ -54,6 +58,11 @@ function renderList() {
       </div>
     </div>
   `).join('');
+}
+
+// Aplicar animación fadeIn a los toasts
+function addFadeInAnimation(element) {
+  element.style.animation = 'fadeIn 0.3s ease-out';
 }
 
 function openPlayer(stationId) {
