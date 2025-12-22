@@ -26,7 +26,7 @@ function showToast(message, type = 'error', duration = 3000) {
   const isError = type === 'error';
   const bgColor = isError ? 'bg-red-500' : 'bg-green-500';
   const iconPath = isError 
-    ? '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>'
+    ? '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="6" x2="12" y2="12"></line><circle cx="12" cy="16" r="1"></circle>'
     : '<polyline points="20 6 9 17 4 12"></polyline>';
   
   toastEl.className = `p-4 rounded-lg text-white font-semibold flex items-center gap-3 mb-2 ${bgColor}`;
