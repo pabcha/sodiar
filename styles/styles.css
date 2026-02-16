@@ -182,3 +182,61 @@ body {
 .animate-fadeIn {
   animation: fadeIn 0.3s ease-out;
 }
+
+/* Skeleton Loader */
+.skeleton-item {
+  background-color: var(--spotify-dark-grey);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.skeleton-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(
+    90deg,
+    var(--spotify-light-grey) 0%,
+    #3a3a3a 50%,
+    var(--spotify-light-grey) 100%
+  );
+  background-size: 200% 100%;
+  border-radius: 4px;
+  margin-right: 16px;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-text {
+  background: linear-gradient(
+    90deg,
+    var(--spotify-light-grey) 0%,
+    #3a3a3a 50%,
+    var(--spotify-light-grey) 100%
+  );
+  background-size: 200% 100%;
+  border-radius: 4px;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-text-title {
+  height: 20px;
+  width: 60%;
+  margin-bottom: 8px;
+}
+
+.skeleton-text-subtitle {
+  height: 14px;
+  width: 40%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

@@ -11,6 +11,7 @@ const toastContainer = document.getElementById('toast-container');
 
 let isPlaying = false;
 let currentStation = null;
+let stations = [];
 
 function showToast(message, type = 'error', duration = 3000) {
   const toastId = `toast-${Date.now()}`;
@@ -40,6 +41,19 @@ function showToast(message, type = 'error', duration = 3000) {
   setTimeout(() => toastEl.remove(), duration);
 }
 
+function renderSkeleton() {
+  const skeletonItems = Array.from({ length: 5 }, (_, i) => `
+    <div class="skeleton-item">
+      <div class="skeleton-icon"></div>
+      <div class="flex-1">
+        <div class="skeleton-text skeleton-text-title"></div>
+        <div class="skeleton-text skeleton-text-subtitle"></div>
+      </div>
+    </div>
+  `).join('');
+  radioListContainer.innerHTML = skeletonItems;
+}
+
 function renderList(stations) {
   radioListContainer.innerHTML = stations.map(station => `
     <div class="radio-item" onclick="openPlayer(${station.id})">
@@ -55,11 +69,13 @@ function renderList(stations) {
 }
 
 async function init() {
+  renderSkeleton();
   try {
     const response = await fetch(URL_RESOURCES);
-    const stations = await response.json();
+    stations = await response.json();
     renderList(stations);
   } catch (error) {
+    radioListContainer.innerHTML = '';
     showToast('Error al traer los datos.', 'error');
   }
 }
