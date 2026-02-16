@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Web Radios</title>
+  <title>Radios en Vivo</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/styles.css">
   <link rel="stylesheet" href="styles/helpers.css">
@@ -11,23 +11,23 @@
 <body>
   <!-- PANTALLA DE LISTA -->
   <main id="screen-list" class="screen screen-list">
-    <h1 class="text-3xl font-bold mb-8 mt-4">Radios FM</h1>
+    <h1 class="text-3xl font-bold mb-8 mt-4">Radios en Vivo</h1>
     <div id="radio-list"></div>
   </main>
   <!-- PANTALLA DE REPRODUCTOR -->
   <section id="screen-player" class="screen screen-player">
     <div class="player-header">
-      <button class="back-btn" onclick="closePlayer()">
+      <button class="back-btn" onclick="closePlayer()" aria-label="Volver a la lista">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
       </button>
-      <span id="player-status" class="text-xs font-bold tracking-widest uppercase">Reproduciendo</span>
+      <span id="player-status" class="text-xs font-bold tracking-widest uppercase">Al aire</span>
       <div style="width: 40px;"></div>
     </div>
 
     <article class="album-art-placeholder">
       <div class="mb-12">
         <h2 id="player-station-name" class="text-2xl font-bold mb-1">Nombre de Radio</h2>
-        <p class="text-gray-400 text-sm">En directo • FM Digital</p>
+        <p class="text-gray-400 text-sm">En vivo • Transmisión Digital</p>
       </div>
       <div class="flex flex-col items-center">
         <div id="wave-container" class="wave-container paused mb-8">
@@ -38,7 +38,7 @@
           <div class="wave-bar"></div>
         </div>
 
-        <button id="main-play-btn" class="play-btn" onclick="togglePlayback()">
+        <button id="main-play-btn" class="play-btn" onclick="togglePlayback()" aria-label="Reproducir o pausar">
           <svg id="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
           <svg id="pause-icon" class="hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
         </button>

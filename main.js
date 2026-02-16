@@ -62,7 +62,7 @@ function renderList(stations) {
       </div>
       <div>
         <div class="font-semibold text-lg">${station.name}</div>
-        <div class="text-xs text-gray-400">Streaming HD</div>
+        <div class="text-xs text-gray-400">Transmisión Digital</div>
       </div>
     </div>
   `).join('');
@@ -76,7 +76,7 @@ async function init() {
     renderList(stations);
   } catch (error) {
     radioListContainer.innerHTML = '';
-    showToast('Error al traer los datos.', 'error');
+    showToast('No pudimos cargar la lista de radios.', 'error');
   }
 }
 
@@ -122,7 +122,7 @@ function togglePlayback() {
     audioPlayer.play().catch(e => {
       isPlaying = false;
       updateUI();
-      showToast('Error al conectar con la radio.', 'error');
+      showToast('No se pudo sintonizar la emisora.', 'error');
     });
     isPlaying = true;
   }
@@ -135,13 +135,13 @@ function updateUI() {
     pauseIcon.classList.remove('hidden');
     waveContainer.classList.remove('paused');
     waveContainer.classList.add('playing');
-    playerStatus.innerText = 'Reproduciendo';
+    playerStatus.innerText = 'Al aire';
   } else {
     playIcon.classList.remove('hidden');
     pauseIcon.classList.add('hidden');
     waveContainer.classList.add('paused');
     waveContainer.classList.remove('playing');
-    playerStatus.innerText = 'En pausa';
+    playerStatus.innerText = 'Detenido';
   }
 }
 
