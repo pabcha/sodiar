@@ -1,7 +1,7 @@
 # Documentación técnica
 
 ## Propósito
-Aplicación web estática que lista estaciones de radio y permite reproducirlas vía streaming desde un endpoint de Google Apps Script.
+Aplicación móvil con tecnología web (Cordova) que lista estaciones de radio y permite reproducirlas vía streaming desde un endpoint de Google Apps Script.
 
 ## Arquitectura y flujo de datos
 - Cliente 100% estático: HTML en [index.html](../index.html), CSS en [styles/styles.css](../styles/styles.css) y [styles/helpers.css](../styles/helpers.css), lógica en [main.js](../main.js).

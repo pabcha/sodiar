@@ -1,6 +1,6 @@
 # Documentación del proyecto
 
-Este directorio concentra la documentación en español del proyecto Web Radios.
+Este directorio concentra la documentación del proyecto Sodiar.
 
 - [docs/tecnica.md](tecnica.md): arquitectura, flujo de datos y puntos de integración.
 - [docs/funcional.md](funcional.md): comportamiento actual de la app y criterios de aceptación/QA.

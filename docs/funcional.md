@@ -1,7 +1,7 @@
 # Documentación funcional
 
 ## Alcance
-Describe el comportamiento actual de la aplicación Web Radios: pantallas, flujos de usuario, mensajes, transiciones y criterios de aceptación/QA manual.
+Describe el comportamiento actual de la aplicación móvil Sodiar: pantallas, flujos de usuario, mensajes, transiciones y criterios de aceptación/QA manual.
 
 ## Pantallas y componentes
 - Lista de estaciones (pantalla inicial) en [index.html](../index.html): título y contenedor de tarjetas; muestra skeleton mientras carga datos.

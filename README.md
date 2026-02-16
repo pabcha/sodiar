@@ -51,7 +51,7 @@ La aplicación utiliza un Google Apps Script como backend para obtener el listad
 ## Ejecución y Pruebas
 
 ### En el navegador
-Dado que es una aplicación web estática, tienes varias opciones rápidas para desarrollo:
+Para probar la interfaz durante el desarrollo, tienes varias opciones rápidas:
 
 1.  **Abrir el archivo directamente:** Puedes hacer doble clic en `www/index.html` para abrirlo en tu navegador predeterminado.
 2.  **VS Code Live Server:** Si usas Visual Studio Code, se recomienda instalar la extensión **Live Server**. Una vez instalada, haz clic derecho en `www/index.html` y selecciona "Open with Live Server" para tener recarga automática ante cambios.
@@ -89,7 +89,7 @@ cordova run android
 
 ## Estructura del Proyecto
 
-- **`www/`**: Contiene el código fuente de la aplicación web (HTML, CSS, JS).
+- **`www/`**: Contiene el código fuente de la aplicación (HTML, CSS, JS).
     - `index.html`: Punto de entrada y estructura HTML.
     - `main.js`: Lógica de la aplicación.
     - `styles/`: Archivos CSS.
