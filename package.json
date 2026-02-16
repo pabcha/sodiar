@@ -1,0 +1,20 @@
+{
+  "name": "sodiar",
+  "displayName": "Sodiar",
+  "version": "1.0.0",
+  "description": "Listado radios locales.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ecosystem:cordova"
+  ],
+  "author": "Apache Cordova Team",
+  "license": "Apache-2.0",
+  "cordova": {
+    "platforms": [
+      "android"
+    ]
+  }
+}
