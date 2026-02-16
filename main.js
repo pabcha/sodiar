@@ -1,9 +1,3 @@
-const stations = [
-  { id: 1, name: "Mujer FM", url: "https://edge02.radiohdvivo.com/mujerfm" },
-  { id: 2, name: "Aries 91.1 FM", url: "https://streaming3.locucionar.com/proxy/ariesonline?mp=/stream" },
-  { id: 3, name: "Salta tropical", url: "https://stream.zeno.fm/vdcegs6c9zquv" }
-];
-
 const screenList = document.getElementById('screen-list');
 const screenPlayer = document.getElementById('screen-player');
 const radioListContainer = document.getElementById('radio-list');
@@ -46,7 +40,7 @@ function showToast(message, type = 'error', duration = 3000) {
   setTimeout(() => toastEl.remove(), duration);
 }
 
-function renderList() {
+function renderList(stations) {
   radioListContainer.innerHTML = stations.map(station => `
     <div class="radio-item" onclick="openPlayer(${station.id})">
       <div class="radio-icon">
@@ -58,6 +52,16 @@ function renderList() {
       </div>
     </div>
   `).join('');
+}
+
+async function init() {
+  try {
+    const response = await fetch(URL_RESOURCES);
+    const stations = await response.json();
+    renderList(stations);
+  } catch (error) {
+    showToast('Error al traer los datos.', 'error');
+  }
 }
 
 // Aplicar animación fadeIn a los toasts
@@ -125,4 +129,4 @@ function updateUI() {
   }
 }
 
-renderList();
+init();
