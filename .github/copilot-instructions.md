@@ -1,3 +1,4 @@
 - Respuestas siempre en español
 - Los ids HTML en formato kebab case
 - Identar usando dos espacios
+- Consultar la documentación del proyecto cuando sea necesario para asegurar precisión
