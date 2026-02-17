@@ -14,7 +14,7 @@
   <main id="screen-list" class="screen screen-list" :class="{ 'hidden-list': showPlayer }">
     <h1 class="text-3xl font-bold mb-8 mt-4">Radios en Vivo</h1>
 
-    <div id="radio-list" class="space-y-2">
+    <div id="radio-list" class="space-y-2 radio-list">
       <div x-show="isLoading" x-transition>
         <template x-for="(_, index) in Array.from({ length: 5 })" :key="`skeleton-${index}`">
           <div class="skeleton-item">

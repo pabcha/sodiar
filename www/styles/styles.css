@@ -54,6 +54,15 @@ body {
   pointer-events: none;
 }
 
+/* Lista: evitar salto al alternar estados */
+.radio-list {
+  display: grid;
+}
+
+.radio-list > div {
+  grid-area: 1 / 1;
+}
+
 /* Elementos de Lista */
 .radio-item {
   background-color: var(--spotify-dark-grey);
