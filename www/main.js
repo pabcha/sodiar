@@ -6,8 +6,11 @@ function sodiar() {
     isLoading: false,
     showPlayer: false,
     toastQueue: [],
+    hasInitialized: false,
 
     async init() {
+      if (this.hasInitialized) return;
+      this.hasInitialized = true;
       this.isLoading = true;
       await this.loadStations();
       this.isLoading = false;
@@ -16,6 +19,9 @@ function sodiar() {
     async loadStations() {
       try {
         const response = await fetch(URL_RESOURCES);
+        if (!response.ok) {
+          throw new Error('fetch_failed');
+        }
         this.stations = await response.json();
       } catch (error) {
         this.stations = [];
@@ -70,6 +76,9 @@ function sodiar() {
     },
 
     toast(message, type = 'error', duration = 3000) {
+      const hasSameToast = this.toastQueue.some(toast => toast.message === message && toast.type === type);
+      if (hasSameToast) return;
+
       const id = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `toast-${Date.now()}`;
       this.toastQueue.push({ id, message, type });
 
