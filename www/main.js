@@ -10,8 +10,43 @@ const waveContainer = document.getElementById('wave-container');
 const toastContainer = document.getElementById('toast-container');
 
 let isPlaying = false;
+let isLoading = false;
 let currentStation = null;
 let stations = [];
+
+// Listeners de eventos del audio
+audioPlayer.addEventListener('loadstart', () => {
+  isLoading = true;
+  updateUI();
+});
+
+audioPlayer.addEventListener('waiting', () => {
+  isLoading = true;
+  updateUI();
+});
+
+audioPlayer.addEventListener('canplay', () => {
+  isLoading = false;
+  updateUI();
+});
+
+audioPlayer.addEventListener('playing', () => {
+  isPlaying = true;
+  isLoading = false;
+  updateUI();
+});
+
+audioPlayer.addEventListener('pause', () => {
+  isPlaying = false;
+  updateUI();
+});
+
+audioPlayer.addEventListener('error', () => {
+  isPlaying = false;
+  isLoading = false;
+  updateUI();
+  showToast('No se pudo sintonizar la emisora.', 'error');
+});
 
 function showToast(message, type = 'error', duration = 3000) {
   const toastId = `toast-${Date.now()}`;
@@ -95,6 +130,7 @@ function openPlayer(stationId) {
   if (audioPlayer.src !== station.url) {
     audioPlayer.src = station.url;
     isPlaying = false;
+    isLoading = false;
     updateUI();
   }
 
@@ -116,32 +152,48 @@ function closePlayer() {
 function togglePlayback() {
   if (isPlaying) {
     audioPlayer.pause();
-    isPlaying = false;
   } else {
+    isLoading = true;
+    updateUI();
     audioPlayer.load();
     audioPlayer.play().catch(e => {
       isPlaying = false;
+      isLoading = false;
       updateUI();
-      showToast('No se pudo sintonizar la emisora.', 'error');
     });
-    isPlaying = true;
   }
-  updateUI();
 }
 
 function updateUI() {
-  if (isPlaying) {
+  const mainPlayBtn = document.getElementById('main-play-btn');
+  
+  if (isLoading) {
+    // Estado: Sintonizando
+    playIcon.classList.remove('hidden');
+    pauseIcon.classList.add('hidden');
+    waveContainer.classList.remove('paused');
+    waveContainer.classList.remove('playing');
+    waveContainer.classList.add('loading');
+    playerStatus.innerText = 'Sintonizando';
+    mainPlayBtn.classList.add('disabled');
+  } else if (isPlaying) {
+    // Estado: Al aire
     playIcon.classList.add('hidden');
     pauseIcon.classList.remove('hidden');
     waveContainer.classList.remove('paused');
+    waveContainer.classList.remove('loading');
     waveContainer.classList.add('playing');
     playerStatus.innerText = 'Al aire';
+    mainPlayBtn.classList.remove('disabled');
   } else {
+    // Estado: Detenido
     playIcon.classList.remove('hidden');
     pauseIcon.classList.add('hidden');
     waveContainer.classList.add('paused');
     waveContainer.classList.remove('playing');
+    waveContainer.classList.remove('loading');
     playerStatus.innerText = 'Detenido';
+    mainPlayBtn.classList.remove('disabled');
   }
 }
 

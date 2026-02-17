@@ -126,6 +126,12 @@ body {
   transform: scale(0.9);
 }
 
+.play-btn.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 .play-btn svg {
   fill: black;
   width: 32px;
@@ -156,6 +162,18 @@ body {
 .paused .wave-bar {
   animation-play-state: paused;
   height: 4px !important;
+}
+
+.loading .wave-bar {
+  animation: shimmer 1.5s infinite;
+  background: linear-gradient(
+    90deg,
+    var(--spotify-light-grey) 0%,
+    var(--spotify-green) 50%,
+    var(--spotify-light-grey) 100%
+  );
+  background-size: 200% 100%;
+  height: 20px;
 }
 
 @keyframes wave {
