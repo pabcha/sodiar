@@ -1,7 +1,7 @@
-- Respuestas siempre en español
-- Los ids HTML en formato kebab case
-- Identar usando dos espacios
-- Consultar la documentación del proyecto cuando sea necesario para asegurar precisión
+- Responder siempre en español.
+- Utilizar exclusivamente el formato `kebab-case` para los identificadores HTML.
+- Aplicar una indentación consistente de dos espacios en todo el código.
+- Consultar proactivamente la documentación del proyecto para garantizar la precisión técnica de las respuestas.
 
 # Writing y Tono de Voz
 - Tono: Amigable, directo y empático (Latinoamérica).
