@@ -7,30 +7,65 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/styles.css">
   <link rel="stylesheet" href="styles/helpers.css">
+  <style>[x-cloak] { display: none; }</style>
 </head>
-<body>
+<body x-data="sodiar()" x-init="init()" x-cloak>
   <!-- PANTALLA DE LISTA -->
-  <main id="screen-list" class="screen screen-list">
+  <main id="screen-list" class="screen screen-list" :class="{ 'hidden-list': showPlayer }">
     <h1 class="text-3xl font-bold mb-8 mt-4">Radios en Vivo</h1>
-    <div id="radio-list"></div>
+
+    <div id="radio-list" class="space-y-2">
+      <div x-show="isLoading" x-transition>
+        <template x-for="(_, index) in Array.from({ length: 5 })" :key="`skeleton-${index}`">
+          <div class="skeleton-item">
+            <div class="skeleton-icon"></div>
+            <div class="flex-1">
+              <div class="skeleton-text skeleton-text-title"></div>
+              <div class="skeleton-text skeleton-text-subtitle"></div>
+            </div>
+          </div>
+        </template>
+      </div>
+
+      <div x-show="!isLoading && stations.length" x-transition>
+        <div class="space-y-2">
+          <template x-for="station in stations" :key="station.id">
+            <button class="radio-item" type="button" x-on:click="openPlayer(station)">
+              <div class="radio-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.4"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.4"/><path d="M19.1 4.9C23 8.8 23 15.2 19.1 19.1"/></svg>
+              </div>
+              <div>
+                <div class="font-semibold text-lg" x-text="station.name"></div>
+                <div class="text-xs text-gray-400">Transmisión Digital</div>
+              </div>
+            </button>
+          </template>
+        </div>
+      </div>
+
+      <div x-show="!isLoading && !stations.length" class="text-center text-gray-400" x-transition>
+        No pudimos cargar la lista de radios.
+      </div>
+    </div>
   </main>
+
   <!-- PANTALLA DE REPRODUCTOR -->
-  <section id="screen-player" class="screen screen-player">
+  <section id="screen-player" class="screen screen-player" :class="{ 'active': showPlayer }">
     <div class="player-header">
-      <button class="back-btn" onclick="closePlayer()" aria-label="Volver a la lista">
+      <button class="back-btn" type="button" aria-label="Volver a la lista" x-on:click="closePlayer()">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
       </button>
-      <span id="player-status" class="text-xs font-bold tracking-widest uppercase">Al aire</span>
+      <span id="player-status" class="text-xs font-bold tracking-widest uppercase" x-text="statusLabel"></span>
       <div style="width: 40px;"></div>
     </div>
 
     <article class="album-art-placeholder">
       <div class="mb-12">
-        <h2 id="player-station-name" class="text-2xl font-bold mb-1">Nombre de Radio</h2>
+        <h2 id="player-station-name" class="text-2xl font-bold mb-1" x-text="currentStation?.name || 'Elige una emisora'"></h2>
         <p class="text-gray-400 text-sm">En vivo • Transmisión Digital</p>
       </div>
       <div class="flex flex-col items-center">
-        <div id="wave-container" class="wave-container paused mb-8">
+        <div id="wave-container" class="wave-container mb-8" :class="isPlaying ? 'playing' : 'paused'">
           <div class="wave-bar"></div>
           <div class="wave-bar"></div>
           <div class="wave-bar"></div>
@@ -38,24 +73,43 @@
           <div class="wave-bar"></div>
         </div>
 
-        <button id="main-play-btn" class="play-btn" onclick="togglePlayback()" aria-label="Reproducir o pausar">
-          <svg id="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          <svg id="pause-icon" class="hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        <button id="main-play-btn" class="play-btn" type="button" aria-label="Reproducir o pausar" x-on:click="togglePlayback()" :disabled="!currentStation">
+          <svg id="play-icon" x-show="!isPlaying" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <svg id="pause-icon" x-show="isPlaying" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
         </button>
       </div>
     </article>
   </section>
 
-  <audio id="audio-player"></audio>
+  <audio id="audio-player" x-ref="audioPlayer" x-on:ended="isPlaying = false"></audio>
 
   <!-- TOAST -->
-  <div id="toast-container" class="fixed bottom-4 left-4 right-4 z-50"></div>
+  <div id="toast-container" class="fixed bottom-4 left-4 right-4 z-50 space-y-2">
+    <template x-for="toast in toastQueue" :key="toast.id">
+      <div class="p-4 rounded-lg text-white font-semibold flex items-center gap-3" :class="toast.type === 'error' ? 'bg-red-500' : 'bg-green-500'" x-transition.opacity.duration.300ms>
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <template x-if="toast.type === 'error'">
+            <g>
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="6" x2="12" y2="12"></line>
+              <circle cx="12" cy="16" r="1"></circle>
+            </g>
+          </template>
+          <template x-if="toast.type !== 'error'">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </template>
+        </svg>
+        <span x-text="toast.message"></span>
+      </div>
+    </template>
+  </div>
   
   <script type="text/javascript">
     // Aqui tus keys de API y constantes
     const SPREADSHEET_ID = "YOUR_SPREADSHEET_ID_HERE";
     const URL_RESOURCES = `https://script.google.com/macros/s/${SPREADSHEET_ID}/exec`;
   </script>
-  <script src="main.js"></script>
+  <script defer src="main.js"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </body>
 </html>
