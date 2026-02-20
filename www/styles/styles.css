@@ -25,33 +25,157 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
   display: flex;
   flex-direction: column;
   padding: 24px;
+  padding-bottom: 380px; /* Espacio para el reproductor maximizado */
   box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .screen-list {
   z-index: 10;
 }
 
-.screen-player {
-  z-index: 20;
-  transform: translateY(100%); /* Comienza abajo */
+/* Reproductor Fijo Inferior */
+.player-fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
   background: linear-gradient(180deg, #2a2a2a 0%, var(--spotify-black) 100%);
-  opacity: 0;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.6);
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.screen-player.active {
+.player-fixed.visible {
   transform: translateY(0);
-  opacity: 1;
 }
 
-.hidden-list {
-  transform: scale(0.95);
-  opacity: 0;
+.player-fixed.minimized {
+  height: 70px;
+}
+
+.player-fixed.maximized {
+  height: 100vh;
+  top: 0;
+  bottom: 0;
+}
+
+/* Barra Minimizada */
+.player-minimized {
+  display: none;
+  padding: 12px 20px;
+  box-sizing: border-box;
+}
+
+.player-fixed.minimized .player-minimized {
+  display: block;
+}
+
+.player-fixed.maximized .player-minimized {
+  display: none;
+}
+
+.player-minimized-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.player-minimized-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.player-station-name-mini {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--spotify-white);
+  margin: 0 0 2px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player-status-mini {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--spotify-green);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.player-minimized-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mini-play-btn {
+  width: 44px;
+  height: 44px;
+  background-color: var(--spotify-green);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.mini-play-btn:active {
+  transform: scale(0.9);
+}
+
+.mini-play-btn svg {
+  fill: black;
+  width: 20px;
+  height: 20px;
+}
+
+.mini-play-btn.disabled {
+  opacity: 0.5;
   pointer-events: none;
+  cursor: not-allowed;
+}
+
+.toggle-player-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.player-fixed.maximized #toggle-player-btn #chevron-icon {
+  transform: rotate(180deg);
+}
+
+/* Vista Maximizada */
+.player-maximized {
+  display: none;
+  padding: 24px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  height: 100%;
+  flex-direction: column;
+}
+
+.player-fixed.minimized .player-maximized {
+  display: none;
+}
+
+.player-fixed.maximized .player-maximized {
+  display: flex;
 }
 
 /* Elementos de Lista */
@@ -87,10 +211,10 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
-.back-btn {
+.toggle-player-btn-max {
   background: none;
   border: none;
   color: white;
@@ -102,10 +226,13 @@ body {
   width: 100%;
   background: linear-gradient(135deg, #282828 0%, #121212 100%);
   border-radius: 12px;
-  margin-bottom: 40px;
   padding: 1rem 2.5rem 2.5rem;
   box-shadow: 0 20px 40px rgba(0,0,0,0.4);
   box-sizing: border-box;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .play-btn {

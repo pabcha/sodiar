@@ -3,14 +3,19 @@ const screenPlayer = document.getElementById('screen-player');
 const radioListContainer = document.getElementById('radio-list');
 const audioPlayer = document.getElementById('audio-player');
 const playerStationName = document.getElementById('player-station-name');
+const playerStationNameMini = document.getElementById('player-station-name-mini');
 const playerStatus = document.getElementById('player-status');
+const playerStatusMini = document.getElementById('player-status-mini');
 const playIcon = document.getElementById('play-icon');
 const pauseIcon = document.getElementById('pause-icon');
+const playIconMini = document.getElementById('play-icon-mini');
+const pauseIconMini = document.getElementById('pause-icon-mini');
 const waveContainer = document.getElementById('wave-container');
 const toastContainer = document.getElementById('toast-container');
 
 let isPlaying = false;
 let isLoading = false;
+let isMinimized = true;
 let currentStation = null;
 let stations = [];
 
@@ -124,7 +129,9 @@ function openPlayer(stationId) {
   const station = stations.find(s => s.id === stationId);
   currentStation = station;
 
+  // Actualizar nombres en ambas vistas
   playerStationName.innerText = station.name;
+  playerStationNameMini.innerText = station.name;
 
   // Si es una estación nueva, cargamos la URL
   if (audioPlayer.src !== station.url) {
@@ -134,9 +141,13 @@ function openPlayer(stationId) {
     updateUI();
   }
 
-  // Transición
-  screenList.classList.add('hidden-list');
-  screenPlayer.classList.add('active');
+  // Mostrar reproductor (inicia minimizado)
+  screenPlayer.classList.add('visible');
+  if (!screenPlayer.classList.contains('minimized')) {
+    screenPlayer.classList.add('minimized');
+  }
+  screenPlayer.classList.remove('maximized');
+  isMinimized = true;
 
   // Autoplay al abrir
   if(!isPlaying) {
@@ -144,9 +155,16 @@ function openPlayer(stationId) {
   }
 }
 
-function closePlayer() {
-  screenList.classList.remove('hidden-list');
-  screenPlayer.classList.remove('active');
+function togglePlayerSize() {
+  isMinimized = !isMinimized;
+  
+  if (isMinimized) {
+    screenPlayer.classList.remove('maximized');
+    screenPlayer.classList.add('minimized');
+  } else {
+    screenPlayer.classList.remove('minimized');
+    screenPlayer.classList.add('maximized');
+  }
 }
 
 function togglePlayback() {
@@ -166,34 +184,47 @@ function togglePlayback() {
 
 function updateUI() {
   const mainPlayBtn = document.getElementById('main-play-btn');
+  const miniPlayBtn = document.getElementById('mini-play-btn');
   
   if (isLoading) {
     // Estado: Sintonizando
     playIcon.classList.remove('hidden');
     pauseIcon.classList.add('hidden');
+    playIconMini.classList.remove('hidden');
+    pauseIconMini.classList.add('hidden');
     waveContainer.classList.remove('paused');
     waveContainer.classList.remove('playing');
     waveContainer.classList.add('loading');
     playerStatus.innerText = 'Sintonizando';
+    playerStatusMini.innerText = 'Sintonizando';
     mainPlayBtn.classList.add('disabled');
+    miniPlayBtn.classList.add('disabled');
   } else if (isPlaying) {
     // Estado: Al aire
     playIcon.classList.add('hidden');
     pauseIcon.classList.remove('hidden');
+    playIconMini.classList.add('hidden');
+    pauseIconMini.classList.remove('hidden');
     waveContainer.classList.remove('paused');
     waveContainer.classList.remove('loading');
     waveContainer.classList.add('playing');
     playerStatus.innerText = 'Al aire';
+    playerStatusMini.innerText = 'Al aire';
     mainPlayBtn.classList.remove('disabled');
+    miniPlayBtn.classList.remove('disabled');
   } else {
     // Estado: Detenido
     playIcon.classList.remove('hidden');
     pauseIcon.classList.add('hidden');
+    playIconMini.classList.remove('hidden');
+    pauseIconMini.classList.add('hidden');
     waveContainer.classList.add('paused');
     waveContainer.classList.remove('playing');
     waveContainer.classList.remove('loading');
     playerStatus.innerText = 'Detenido';
+    playerStatusMini.innerText = 'Detenido';
     mainPlayBtn.classList.remove('disabled');
+    miniPlayBtn.classList.remove('disabled');
   }
 }
 
