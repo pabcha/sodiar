@@ -1,7 +1,7 @@
 {
   "name": "sodiar",
   "displayName": "Sodiar",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Listado radios locales.",
   "main": "index.js",
   "scripts": {
