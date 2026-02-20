@@ -15,16 +15,24 @@
 
 ## Componentes clave
 - **Tarjeta de radio:** fondo gris oscuro, borde redondeado y highlight al presionar; icono con acento verde.
-- **Reproductor:** cabecera con botón back, estado en mayúsculas y bloque central con gradiente; botón principal circular verde.
-- **Ondas animadas:** barras verticales con animación `wave`; estados `playing` (animación activa) y `paused` (altura mínima y pausa).
+- **Reproductor:** panel fijo inferior (`.player-fixed`) con dos variantes:
+  - *Minimizado* (`.minimized`): barra de 70px con nombre de estación (`.player-station-name-mini`), estado (`.player-status-mini`) y botón circular verde de 44px (`.mini-play-btn`).
+  - *Maximizado* (`.maximized`): panel a pantalla completa con nombre, bloque central con gradiente, ondas animadas y botón principal circular verde.
+  - Botón chevron (`.toggle-player-btn` / `.toggle-player-btn-max`) alterna entre ambas vistas.
+- **Ondas animadas:** barras verticales con animación `wave`; tres estados:
+  - `.playing`: animación activa en verde.
+  - `.paused`: altura mínima y animación detenida.
+  - `.loading`: efecto shimmer verde (gradiente animado) mientras el audio carga.
+- **Botones de reproducción:** clase `.disabled` los deshabilita visualmente (opacidad reducida, cursor no interactivo) durante el estado "Sintonizando".
 - **Skeleton loader:** bloques con gradiente animado `shimmer` que ocupa el lugar de las tarjetas mientras cargan datos.
 - **Toast:** contenedor fijo inferior; colores rojo/verde según tipo, con animación `fadeIn`.
 
 ## Animaciones y transiciones
-- Transición de pantalla: `screen-player` entra desde abajo y la lista se escala/desvanece al abrir el reproductor.
+- La lista permanece estática; el panel reproductor se superpone como capa fija inferior (no hay transición de pantalla separada).
 - Botón play/pause: escala ligera al hacer click.
-- `fadeIn`: entrada suave usada en toasts y skeletons.
+- `fadeIn`: entrada suave horizontal (`translateX(20px) → translateX(0)`) usada en toasts.
 - `wave`: ciclo de altura para barras animadas con delays escalonados.
+- `shimmer`: gradiente deslizante verde usado en ondas durante el estado "Sintonizando".
 
 ## Layout y helpers
 - Utilidades tipo Tailwind en [styles/helpers.css](../styles/helpers.css): espaciados (`mb-*`, `mt-*`, `p-*`), flex y alineaciones, colores de texto y fondos, radios, trackings y tamaños.

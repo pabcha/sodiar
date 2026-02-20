@@ -5,10 +5,19 @@ Aplicación móvil con tecnología web (Cordova) que lista estaciones de radio y
 
 ## Arquitectura y flujo de datos
 - Cliente 100% estático: HTML en [index.html](../index.html), CSS en [styles/styles.css](../styles/styles.css) y [styles/helpers.css](../styles/helpers.css), lógica en [main.js](../main.js).
-- Origen de datos: constante `URL_RESOURCES` definida en [index.html](../index.html) (se construye con `SPREADSHEET_ID`) apunta a un endpoint de Google Apps Script que retorna JSON.
+- Origen de datos: constante `URL_RESOURCES` definida en [index.html](../index.html) (construida con `SPREADSHEET_ID`, que corresponde al **deployment ID** del Apps Script desplegado, no al ID de la hoja de cálculo) apunta a un endpoint de Google Apps Script que retorna JSON.
 - Carga inicial: `init()` en [main.js](../main.js) pinta un esqueleto, hace `fetch(URL_RESOURCES)` y guarda el arreglo en `stations`; luego renderiza la lista.
 - Renderizado: `renderList()` construye cada tarjeta con `station.id` y `station.name`; el click abre el reproductor con `openPlayer()`.
-- Reproducción: `openPlayer()` fija la estación actual, carga la URL si cambia y activa transición de pantalla; `togglePlayback()` usa `audioPlayer.load()` / `audioPlayer.play()` y actualiza la UI con `updateUI()`.
+- Reproducción: `openPlayer()` fija la estación actual, carga la URL si cambia y muestra el panel en modo minimizado; `togglePlayback()` usa `audioPlayer.load()` / `audioPlayer.play()` y actualiza la UI con `updateUI()`.
+- Control de tamaño del reproductor: `togglePlayerSize()` alterna la clase del panel entre `.minimized` y `.maximized` según el estado de la variable `isMinimized`.
+- Variables de estado globales: `isPlaying`, `isLoading`, `isMinimized`, `currentStation`, `stations`.
+- Eventos de audio: seis listeners sobre `audioPlayer` gestionan transiciones de estado:
+  - `loadstart` → `isLoading = true`
+  - `waiting` → `isLoading = true`
+  - `canplay` → `isLoading = false`
+  - `playing` → `isPlaying = true`, `isLoading = false`
+  - `pause` → `isPlaying = false`
+  - `error` → `isPlaying = false`, `isLoading = false` + toast de error
 - Estados y errores: `showToast()` muestra mensajes (error/éxito) en contenedor fijo; errores de red y de audio disparan toasts y limpian UI mínima.
 
 ## Formato de datos esperado
@@ -41,9 +50,10 @@ Consideraciones:
 - Requiere que `SPREADSHEET_ID` apunte a un Apps Script desplegado que permita CORS para el dominio donde se sirva la app.
 
 ## Estados y manejo de errores
+- **Sintonizando (isLoading):** mientras el elemento `<audio>` carga; botones de reproducción deshabilitados, ondas muestran shimmer verde.
 - **Sin datos / fallo de fetch:** limpia la lista y muestra toast de error.
-- **Fallo de audio (play):** `play()` captura la promesa rechazada, desactiva estado de reproducción y muestra toast.
-- **Cambio de estación:** si la URL cambia, se reinicia `isPlaying` antes de cargar la nueva fuente.
+- **Fallo de audio (play):** el listener `error` y la promesa rechazada de `play()` desactivan el estado de reproducción y muestran toast.
+- **Cambio de estación:** si la URL cambia, se reinicia `isPlaying` e `isLoading` antes de cargar la nueva fuente.
 
 ## Extensiones recomendadas
 - Servidor local estático para pruebas manuales.
