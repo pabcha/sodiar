@@ -50,8 +50,16 @@ audioPlayer.addEventListener('error', () => {
   isPlaying = false;
   isLoading = false;
   updateUI();
-  showToast('No se pudo sintonizar la emisora.', 'error');
+  const message = getConnectivityMessage(
+    'No se pudo sintonizar. Verificá tu conexión a internet.',
+    'No se pudo sintonizar la emisora.'
+  );
+  showToast(message, 'error');
 });
+
+function getConnectivityMessage(offlineMessage, defaultMessage) {
+  return !navigator.onLine ? offlineMessage : defaultMessage;
+}
 
 function showToast(message, type = 'error', duration = 3000) {
   const toastId = `toast-${Date.now()}`;
@@ -116,7 +124,11 @@ async function init() {
     renderList(stations);
   } catch (error) {
     radioListContainer.innerHTML = '';
-    showToast('No pudimos cargar la lista de radios.', 'error');
+    const message = getConnectivityMessage(
+      'No pudimos cargar la lista. Verificá tu conexión a internet.',
+      'No pudimos cargar la lista de radios.'
+    );
+    showToast(message, 'error');
   }
 }
 
@@ -178,6 +190,11 @@ function togglePlayback() {
       isPlaying = false;
       isLoading = false;
       updateUI();
+      const message = getConnectivityMessage(
+        'No se pudo sintonizar. Verificá tu conexión a internet.',
+        'No se pudo sintonizar la emisora.'
+      );
+      showToast(message, 'error');
     });
   }
 }
