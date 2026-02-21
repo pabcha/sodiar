@@ -18,6 +18,18 @@ body {
   justify-content: center;
 }
 
+radio-station-list {
+  display: block;
+}
+
+radio-player-panel {
+  display: block;
+}
+
+app-toast {
+  display: block;
+}
+
 /* Pantallas */
 .screen {
   position: absolute;

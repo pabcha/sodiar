@@ -12,97 +12,24 @@
   <!-- PANTALLA DE LISTA -->
   <main id="screen-list" class="screen screen-list">
     <h1 class="text-3xl font-bold mb-8 mt-4">Radios en Vivo</h1>
-    <div id="radio-list"></div>
+    <radio-station-list id="radio-station-list"></radio-station-list>
   </main>
-  
-  <!-- REPRODUCTOR FIJO INFERIOR -->
-  <section id="screen-player" class="player-fixed minimized">
-    <!-- Barra Minimizada -->
-    <div class="player-minimized">
-      <div class="player-minimized-content">
-        <div class="player-minimized-info">
-          <h3 id="player-station-name-mini" class="player-station-name-mini">Selecciona una radio</h3>
-          <span id="player-status-mini" class="player-status-mini">Al aire</span>
-        </div>
-        <div class="player-minimized-controls">
-          <button id="mini-play-btn" class="mini-play-btn" onclick="togglePlayback()" aria-label="Reproducir o pausar">
-            <svg id="play-icon-mini" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            <svg id="pause-icon-mini" class="hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-          </button>
-          <button id="toggle-player-btn" class="toggle-player-btn" onclick="togglePlayerSize()" aria-label="Expandir reproductor">
-            <svg id="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="18 15 12 9 6 15"></polyline>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
 
-    <!-- Vista Maximizada -->
-    <div class="player-maximized">
-      <div class="player-header">
-        <span id="player-status" class="text-xs font-bold tracking-widest uppercase">Al aire</span>
-        <button class="toggle-player-btn-max" onclick="togglePlayerSize()" aria-label="Minimizar reproductor">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </button>
-      </div>
-
-      <article>
-        <div class="album-art-placeholder">
-          <div class="mb-12">
-            <h2 id="player-station-name" class="text-2xl font-bold mb-1">Nombre de Radio</h2>
-            <p class="text-gray-400 text-sm">En vivo • Transmisión Digital</p>
-          </div>
-          <div class="flex flex-col items-center">
-            <div id="wave-container" class="wave-container paused mb-8">
-              <div class="wave-bar"></div>
-              <div class="wave-bar"></div>
-              <div class="wave-bar"></div>
-              <div class="wave-bar"></div>
-              <div class="wave-bar"></div>
-            </div>
-  
-            <button id="main-play-btn" class="play-btn" onclick="togglePlayback()" aria-label="Reproducir o pausar">
-              <svg id="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-              <svg id="pause-icon" class="hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-            </button>
-
-            <!-- Control de Volumen -->
-            <div id="volume-control" class="volume-control">
-              <svg class="volume-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5zm7-.17v6.34L9.83 13H7v-2h2.83L12 8.83z"/>
-              </svg>
-              <input
-                type="range"
-                id="volume-slider"
-                class="volume-slider"
-                min="0"
-                max="100"
-                value="100"
-                aria-label="Volumen"
-              />
-              <svg class="volume-icon volume-icon--high" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
-  </section>
+  <radio-player-panel id="radio-player-panel"></radio-player-panel>
 
   <audio id="audio-player"></audio>
 
   <!-- TOAST -->
-  <div id="toast-container" class="fixed bottom-4 left-4 right-4" style="z-index: 200;"></div>
+  <app-toast id="app-toast"></app-toast>
   
   <script type="text/javascript">
     // Aqui tus keys de API y constantes
     const SPREADSHEET_ID = "YOUR_SPREADSHEET_ID_HERE";
     const URL_RESOURCES = `https://script.google.com/macros/s/${SPREADSHEET_ID}/exec`;
   </script>
+  <script src="components/radio-station-list.js"></script>
+  <script src="components/radio-player-panel.js"></script>
+  <script src="components/app-toast.js"></script>
   <script src="main.js"></script>
 </body>
 </html>
