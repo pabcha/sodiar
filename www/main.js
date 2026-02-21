@@ -19,6 +19,7 @@ let isLoading = false;
 let isMinimized = true;
 let currentStation = null;
 let stations = [];
+let lastTuneErrorToastAt = 0;
 
 // Volumen inicial y control
 audioPlayer.volume = 1;
@@ -57,12 +58,22 @@ audioPlayer.addEventListener('error', () => {
   isPlaying = false;
   isLoading = false;
   updateUI();
+  showTuneErrorToast();
+});
+
+function showTuneErrorToast() {
+  const now = Date.now();
+  if (now - lastTuneErrorToastAt < 1500) {
+    return;
+  }
+
+  lastTuneErrorToastAt = now;
   const message = getConnectivityMessage(
     'No se pudo sintonizar. Verificá tu conexión a internet.',
     'No se pudo sintonizar la emisora.'
   );
   showToast(message, 'error');
-});
+}
 
 function getConnectivityMessage(offlineMessage, defaultMessage) {
   return !navigator.onLine ? offlineMessage : defaultMessage;
@@ -192,11 +203,7 @@ function togglePlayback() {
       isPlaying = false;
       isLoading = false;
       updateUI();
-      const message = getConnectivityMessage(
-        'No se pudo sintonizar. Verificá tu conexión a internet.',
-        'No se pudo sintonizar la emisora.'
-      );
-      showToast(message, 'error');
+      showTuneErrorToast();
     });
   }
 }
