@@ -31,6 +31,11 @@ Describe el comportamiento actual de la aplicación móvil Sodiar: pantallas, fl
 - Botón chevron en el borde superior del panel alterna entre vista minimizada y maximizada.
 - El reproductor permanece visible mientras la lista sigue accesible; no hay pantalla separada ni botón "back".
 
+5) **Navegación por teclado**
+- La tecla Tab recorre los ítems de la lista en orden; cada ítem recibe foco visible con un ring verde de 3px.
+- Presionar Enter o Space sobre un ítem con foco ejecuta la misma acción que tocarlo: abre el reproductor en modo minimizado y dispara autoplay.
+- Los botones del reproductor (play/pause, chevron) también son alcanzables por Tab y activables con Enter/Space.
+
 ## Mensajes y estados de error
 - **Fallo al traer datos:** toast rojo con "No pudimos cargar la lista de radios." y lista vacía.
 - **Fallo al reproducir:** toast rojo con "No se pudo sintonizar la emisora." y estado vuelve a detenido.
@@ -42,6 +47,8 @@ Describe el comportamiento actual de la aplicación móvil Sodiar: pantallas, fl
 - Al reproducir, el icono principal cambia a pausa y las ondas pasan al estado animado; al pausar, ocurre lo inverso.
 - El botón chevron alterna correctamente entre modo minimizado y maximizado.
 - Errores de red o de reproducción generan toast rojo y no dejan la UI en estado inconsistente (iconos/ondas en detenido).
+- Al navegar con Tab, cada ítem de la lista y cada botón del reproductor muestran un ring verde visible al recibir foco.
+- Presionar Enter o Space sobre un ítem de la lista con foco abre el reproductor y dispara autoplay, idéntico al tap táctil.
 
 ## Guía de QA manual
 - **Precondiciones:** endpoint accesible con respuesta JSON válida, navegador con audio habilitado, conexión estable.
@@ -52,6 +59,7 @@ Describe el comportamiento actual de la aplicación móvil Sodiar: pantallas, fl
   - Estado "Sintonizando": verificar que los botones quedan deshabilitados durante la carga y se habilitan al recibir audio.
   - Cambiar de estación: verificar que nombre y stream cambian y que el estado se reinicia coherentemente.
   - Chevron: alternar entre vista minimizada y maximizada; confirmar que ambas reflejan el estado correcto.
+  - Conectar teclado físico (o activar navegación por teclado en el emulador): verificar que Tab recorra todos los ítems de la lista con ring verde visible, y que Enter/Space sobre un ítem abra el reproductor correctamente.
 - **Pruebas de error:**
   - Simular caída de endpoint (URL inválida): debe mostrarse "No pudimos cargar la lista de radios." y la lista quedar vacía.
   - Simular error de audio (URL rota): al intentar reproducir, se muestra "No se pudo sintonizar la emisora." y la UI queda en estado detenido.

@@ -14,7 +14,7 @@
 - Escalas utilitarias definidas en [styles/helpers.css](../styles/helpers.css) (`text-3xl`, `text-2xl`, `text-lg`, etc.).
 
 ## Componentes clave
-- **Tarjeta de radio:** fondo gris oscuro, borde redondeado y highlight al presionar; icono con acento verde.
+- **Tarjeta de radio:** elemento `<button>` con clase `.radio-item`; fondo gris oscuro, borde redondeado y highlight al presionar (`:active`); icono con acento verde. Al recibir foco por teclado muestra un ring de 3px en verde (`:focus-visible` con `box-shadow`).
 - **Reproductor:** panel fijo inferior (`.player-fixed`) con dos variantes:
   - *Minimizado* (`.minimized`): barra de 70px con nombre de estación (`.player-station-name-mini`), estado (`.player-status-mini`) y botón circular verde de 44px (`.mini-play-btn`).
   - *Maximizado* (`.maximized`): panel a pantalla completa con nombre, bloque central con gradiente, ondas animadas y botón principal circular verde.
@@ -42,3 +42,5 @@
 - Preferir fuentes y assets remotos cacheables.
 - Mantener contraste alto (texto blanco sobre fondos oscuros, acento verde en acciones).
 - Minimizar cambios forzados de layout usando transiciones y animaciones cortas.
+- **Foco visible:** `:focus-visible` con `box-shadow: 0 0 0 3px var(--spotify-green)` en todos los elementos interactivos; se usa `box-shadow` en lugar de `outline` para garantizar visibilidad sobre elementos con `border-radius` en Android WebView.
+- **Elementos interactivos:** usar siempre `<button>` para acciones (no `<div>`), lo que evita declarar `tabindex`, `role` y listeners de teclado adicionales.

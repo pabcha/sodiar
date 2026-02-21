@@ -188,10 +188,22 @@ body {
   align-items: center;
   cursor: pointer;
   transition: background-color 0.2s;
+  /* Reset de estilos nativos de <button> */
+  border: none;
+  width: 100%;
+  text-align: left;
+  color: var(--spotify-white);
+  font-family: inherit;
+  font-size: inherit;
 }
 
 .radio-item:active {
   background-color: var(--spotify-light-grey);
+}
+
+.radio-item:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--spotify-green);
 }
 
 .radio-icon {
@@ -251,6 +263,15 @@ body {
 
 .play-btn:active {
   transform: scale(0.9);
+}
+
+/* Foco visible para navegación por teclado */
+.mini-play-btn:focus-visible,
+.play-btn:focus-visible,
+.toggle-player-btn:focus-visible,
+.toggle-player-btn-max:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--spotify-green);
 }
 
 .play-btn.disabled {
