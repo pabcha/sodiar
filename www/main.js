@@ -132,11 +132,6 @@ async function init() {
   }
 }
 
-// Aplicar animación fadeIn a los toasts
-function addFadeInAnimation(element) {
-  element.style.animation = 'fadeIn 0.3s ease-out';
-}
-
 function openPlayer(stationId) {
   const station = stations.find(s => s.id === stationId);
   currentStation = station;
