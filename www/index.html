@@ -68,6 +68,25 @@
               <svg id="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
               <svg id="pause-icon" class="hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
             </button>
+
+            <!-- Control de Volumen -->
+            <div id="volume-control" class="volume-control">
+              <svg class="volume-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5zm7-.17v6.34L9.83 13H7v-2h2.83L12 8.83z"/>
+              </svg>
+              <input
+                type="range"
+                id="volume-slider"
+                class="volume-slider"
+                min="0"
+                max="100"
+                value="100"
+                aria-label="Volumen"
+              />
+              <svg class="volume-icon volume-icon--high" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+              </svg>
+            </div>
           </div>
         </div>
       </article>
@@ -81,7 +100,7 @@
   
   <script type="text/javascript">
     // Aqui tus keys de API y constantes
-    const SPREADSHEET_ID = "YOUR_SPREADSHEET_ID_HERE";
+    const SPREADSHEET_ID = "AKfycbytEnGC280yi3ov7IqxBj8tH66f5TG2K4XNTyJL8KO5wl63fBztEm2II1eOExnBepg3";
     const URL_RESOURCES = `https://script.google.com/macros/s/${SPREADSHEET_ID}/exec`;
   </script>
   <script src="main.js"></script>

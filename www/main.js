@@ -12,12 +12,19 @@ const playIconMini = document.getElementById('play-icon-mini');
 const pauseIconMini = document.getElementById('pause-icon-mini');
 const waveContainer = document.getElementById('wave-container');
 const toastContainer = document.getElementById('toast-container');
+const volumeSlider = document.getElementById('volume-slider');
 
 let isPlaying = false;
 let isLoading = false;
 let isMinimized = true;
 let currentStation = null;
 let stations = [];
+
+// Volumen inicial y control
+audioPlayer.volume = 1;
+volumeSlider.addEventListener('input', () => {
+  audioPlayer.volume = volumeSlider.value / 100;
+});
 
 // Listeners de eventos del audio
 audioPlayer.addEventListener('loadstart', () => {
